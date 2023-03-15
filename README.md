@@ -19,3 +19,15 @@ git clone https://github.com/alexisbouchez/livecoding-node-typescript.git
 cd livecoding-node-typescript
 npm install
 ```
+
+## Lancement en mode développement
+
+```bash
+npm run dev
+```
+
+## Lancement en mode production
+
+```bash
+npm run start
+```
