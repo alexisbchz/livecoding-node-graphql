@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dataSource from "./dataSource";
-import wildersRouter from "./routes/wildersRouter";
-import skillsRouter from "./routes/skillsRouter";
+import wildersRouter from "./routers/wildersRouter";
+import skillsRouter from "./routers/skillsRouter";
 
 const app = express();
 app.use(express.json());
