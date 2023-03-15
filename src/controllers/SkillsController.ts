@@ -52,6 +52,11 @@ export default class SkillsController {
 
   async update(req: Request, res: Response): Promise<void> {
     const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      res.status(400).send("Invalid ID");
+      return;
+    }
+
     const skillToUpdate = await this.findOneById(id);
     if (skillToUpdate === null) {
       res.status(404).send("Skill to update not found");
@@ -75,6 +80,10 @@ export default class SkillsController {
 
   async delete(req: Request, res: Response): Promise<void> {
     const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      res.status(400).send("Invalid ID");
+      return;
+    }
 
     const skillToDelete = await this.findOneById(id);
     if (skillToDelete === null) {
