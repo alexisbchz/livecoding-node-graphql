@@ -33,6 +33,7 @@ export default class WildersController {
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.addSkillToWilder = this.addSkillToWilder.bind(this);
+    this.deleteSkillFromWilder = this.deleteSkillFromWilder.bind(this);
   }
 
   // Cette méthode est privée car elle n'est utilisée que dans cette classe.
@@ -142,6 +143,7 @@ export default class WildersController {
     res.send("Wilder deleted");
   }
 
+  // On aurait pu ajouter cette compétence au niveau de la compétence.
   async addSkillToWilder(req: Request, res: Response): Promise<void> {
     // Récupérer l'identifiant du Wilder
     const wilderId = parseInt(req.params.wilderId);
@@ -187,5 +189,46 @@ export default class WildersController {
 
     // Retourner un message de succès, avec le bon code HTTP (200 OK)
     res.send("Skill added to Wilder");
+  }
+
+  async deleteSkillFromWilder(req: Request, res: Response): Promise<void> {
+    const wilderId = parseInt(req.params.wilderId);
+    const skillId = parseInt(req.params.skillId);
+
+    // Vérifier que l'identifiant du wilder est bien un nombre
+    if (isNaN(wilderId)) {
+      res.status(400).send("Invalid wilder ID");
+      return;
+    }
+
+    // Vérifier que l'identifiant du skill est bien un nombre
+    if (isNaN(skillId)) {
+      res.status(400).send("Invalid skill ID");
+      return;
+    }
+
+    // Vérifier que le Wilder existe bien, notez qu'on répète beaucoup de code ici !
+    const wilder = await this.findOneById(wilderId);
+    if (wilder === null) {
+      res.status(404).send("Wilder not found");
+      return;
+    }
+
+    // Vérifier que la compétence existe bien.
+    // Notez qu'on répète beaucoup de code ici (aussi) !
+    const skill = await this.skillsRepository.findOneBy({ id: skillId });
+    if (skill === null) {
+      res.status(404).send("Skill not found");
+      return;
+    }
+
+    // Supprimer la compétence du Wilder
+    wilder.skills = wilder.skills.filter((s) => s.id !== skill.id);
+
+    // Sauvegarder le Wilder
+    await this.wildersRepository.save(wilder);
+
+    // Retourner un message de succès, avec le bon code HTTP (200 OK)
+    res.send("Skill deleted from Wilder");
   }
 }

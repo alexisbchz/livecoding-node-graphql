@@ -14,6 +14,7 @@ wildersRouter.post("/api/wilders", wildersController.create);
 wildersRouter.put("/api/wilders/:id", wildersController.update);
 wildersRouter.delete("/api/wilders/:id", wildersController.delete);
 
+// On aurait pu ajouter cette compétence au niveau de la compétence.
 wildersRouter.post(
   "/api/wilders/:wilderId/skills/:skillId",
   wildersController.addSkillToWilder
