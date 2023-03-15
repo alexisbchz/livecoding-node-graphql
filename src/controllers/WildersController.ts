@@ -143,25 +143,37 @@ export default class WildersController {
   }
 
   async addSkillToWilder(req: Request, res: Response): Promise<void> {
+    // Récupérer l'identifiant du Wilder
     const wilderId = parseInt(req.params.wilderId);
+
+    // Vérifier que l'identifiant est bien un nombre
     if (isNaN(wilderId)) {
       res.status(400).send("Invalid wilder ID");
       return;
     }
 
+    // Récupérer l'identifiant de la compétence
     const skillId = parseInt(req.params.skillId);
+
+    // Vérifier que l'identifiant est bien un nombre
     if (isNaN(skillId)) {
       res.status(400).send("Invalid skill ID");
       return;
     }
 
+    // Vérifier que le Wilder existe bien
     const wilder = await this.findOneById(wilderId);
+
     if (wilder === null) {
+      // Retourner une erreur 404 si le Wilder n'existe pas
       res.status(404).send("Wilder not found");
       return;
     }
 
+    // Vérifier que la compétence existe bien
     const skill = await this.skillsRepository.findOneBy({ id: skillId });
+
+    // Retourner une erreur 404 si la compétence n'existe pas
     if (skill === null) {
       res.status(404).send("Skill not found");
       return;
