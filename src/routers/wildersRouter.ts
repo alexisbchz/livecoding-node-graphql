@@ -14,10 +14,14 @@ wildersRouter.post("/api/wilders", wildersController.create);
 wildersRouter.put("/api/wilders/:id", wildersController.update);
 wildersRouter.delete("/api/wilders/:id", wildersController.delete);
 
-// On aurait pu ajouter cette compétence au niveau de la compétence.
+// On aurait pu ajouter ces routes au niveau du SkillsController.
 wildersRouter.post(
   "/api/wilders/:wilderId/skills/:skillId",
   wildersController.addSkillToWilder
+);
+wildersRouter.delete(
+  "/api/wilders/:wilderId/skills/:skillId",
+  wildersController.deleteSkillFromWilder
 );
 
 // On exporte le routeur
