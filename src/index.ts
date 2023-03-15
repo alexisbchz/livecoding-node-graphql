@@ -1,20 +1,14 @@
 import express from "express";
 import cors from "cors";
 import dataSource from "./dataSource";
-import WildersController from "./controllers/WildersController";
+import wildersRouter from "./routes/wildersRouter";
+import skillsRouter from "./routes/skillsRouter";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
-
-const wildersController = new WildersController();
-app.get("/api/wilders", wildersController.read);
-app.post("/api/wilders", wildersController.create);
-app.put("/api/wilders/:id", wildersController.update);
+app.use(wildersRouter);
+app.use(skillsRouter);
 
 const start = async (): Promise<void> => {
   await dataSource.initialize();

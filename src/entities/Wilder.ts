@@ -22,3 +22,13 @@ export default class Wilder {
   @JoinTable()
   skills: Skill[];
 }
+
+/* On aurait pu ici ajouter le repository de Wilder,
+   mais on a décidé de le faire dans les contrôleurs.
+
+import { EntityRepository, Repository } from "typeorm";
+import Wilder from "../entities/Wilder";
+
+@EntityRepository(Wilder)
+export class WildersRepository extends Repository<Wilder> {}
+*/
