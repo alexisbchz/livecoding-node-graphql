@@ -11,8 +11,8 @@ POST http://localhost:5000/api/wilders
 Content-Type: application/json
 
 {
-    "name": "Jane Doe",
-    "city": "Washington, USA"
+    "name": "René Girard",
+    "city": "Paris"
 }
 
 ### Update a Wilder
@@ -28,7 +28,7 @@ Content-Type: application/json
 DELETE http://localhost:5000/api/wilders/2
 
 ### Add skill to a Wilder
-POST http://localhost:5000/api/wilders/4/skills/2
+POST http://localhost:5000/api/wilders/4/skills/10
 
 ### Remove skill from a Wilder
-DELETE http://localhost:5000/api/wilders/4/skills/2
+DELETE http://localhost:5000/api/wilders/5/skills/8

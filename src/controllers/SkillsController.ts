@@ -31,6 +31,7 @@ export default class SkillsController {
     } catch (error) {
       if ((error as { code: string }).code === "SQLITE_CONSTRAINT") {
         res.status(409).send("Skill already exists");
+        return;
       }
       res.status(500).send("Internal server error");
     }
@@ -80,7 +81,8 @@ export default class SkillsController {
 
     try {
       // On met à jour le Skill
-      await this.skillsRepository.update(skillToUpdate, {
+      await this.skillsRepository.save({
+        id,
         name,
       });
 
@@ -90,8 +92,8 @@ export default class SkillsController {
       // On vérifie que l'erreur est bien une erreur de contrainte d'unicité
       if ((error as { code: string }).code === "SQLITE_CONSTRAINT") {
         res.status(409).send("Skill already exists");
+        return;
       }
-
       // On retourne un message d'erreur, avec le bon code HTTP (500 Internal Server Error)
       res.status(500).send("Internal server error");
     }
