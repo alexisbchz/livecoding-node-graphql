@@ -1,20 +1,19 @@
-import express from "express";
-import cors from "cors";
 import dataSource from "./dataSource";
-import wildersRouter from "./routers/wildersRouter";
-import skillsRouter from "./routers/skillsRouter";
-
-const app = express();
-app.use(express.json());
-app.use(cors());
-app.use(wildersRouter);
-app.use(skillsRouter);
+import { ApolloServer, gql } from "apollo-server";
+import { buildSchema } from "type-graphql";
+import { WildersResolver } from "./resolvers/WildersResolver";
 
 const start = async (): Promise<void> => {
   await dataSource.initialize();
-  const port = 5000;
-  app.listen(port, () => {
-    console.log(`Server started on port ${port}.`);
+  const schema = await buildSchema({ resolvers: [WildersResolver] });
+  const server = new ApolloServer({
+    schema,
   });
+  try {
+    const { url } = await server.listen({ port: 5000 });
+    console.log(`Server ready at ${url}`);
+  } catch {
+    console.log("Error starting the server");
+  }
 };
 void start();
